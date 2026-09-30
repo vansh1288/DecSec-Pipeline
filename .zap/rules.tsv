@@ -1,0 +1,81 @@
+# DevSecOps Pipeline - OWASP ZAP Alert Rules Configuration
+# TSV format: Alert ID	Action	Severity	Justification
+# Actions: FAIL, WARN, INFO, SUPPRESS
+# This file is parsed by scripts/normalize_reports.py to apply policy to ZAP findings
+
+# Alert ID	Action	Severity	Justification
+0	FAIL	High	Missing Anti-CSRF Tokens - Critical for state-changing operations
+1	FAIL	High	SQL Injection - Confirmed exploitable vulnerability
+2	FAIL	High	XSS (Cross Site Scripting) - Confirmed exploitable vulnerability
+3	FAIL	High	Path Traversal - Confirmed exploitable vulnerability
+4	FAIL	High	Command Injection - Confirmed exploitable vulnerability
+5	FAIL	High	Remote File Include - Confirmed exploitable vulnerability
+6	FAIL	High	Local File Include - Confirmed exploitable vulnerability
+7	FAIL	High	LDAP Injection - Confirmed exploitable vulnerability
+8	FAIL	High	XPath Injection - Confirmed exploitable vulnerability
+9	FAIL	High	SSI Injection - Confirmed exploitable vulnerability
+10	FAIL	High	XQuery Injection - Confirmed exploitable vulnerability
+11	FAIL	High	Email Header Injection - Confirmed exploitable vulnerability
+12	FAIL	High	CRLF Injection - Confirmed exploitable vulnerability
+13	FAIL	High	HTTP Parameter Pollution - Confirmed exploitable vulnerability
+14	FAIL	High	Format String Error - Confirmed exploitable vulnerability
+
+# Security Headers - These are expected in baseline, WARN for educational purposes
+10016	WARN	Medium	Web Browser XSS Protection Not Enabled - Missing X-XSS-Protection header
+10017	WARN	Medium	X-Content-Type-Options Header Missing - Missing X-Content-Type-Options header
+10018	WARN	Low	X-Frame-Options Header Not Set - Missing X-Frame-Options header
+10019	WARN	Medium	Content Security Policy (CSP) Header Not Set - Missing CSP header
+10020	WARN	Low	Referrer Policy Header Not Set - Missing Referrer-Policy header
+10021	WARN	Low	Permissions Policy Header Not Set - Missing Permissions-Policy header
+10022	WARN	Low	Strict Transport Security (HSTS) Not Enforced - Not applicable for HTTP localhost
+
+# Information Disclosure
+10023	WARN	Low	Information Disclosure - Server header reveals version info
+10024	WARN	Low	Information Disclosure - X-Powered-By header reveals framework
+10025	WARN	Low	Information Disclosure - Comment contains sensitive info
+10026	WARN	Low	Information Disclosure - Directory listing enabled
+10027	WARN	Low	Information Disclosure - Backup file found
+10028	WARN	Low	Information Disclosure - Source code disclosure
+10029	WARN	Low	Information Disclosure - Stack trace/error message leakage
+
+# Cookie Security
+10030	WARN	Medium	Cookie Without Secure Flag - Session cookie missing Secure flag
+10031	WARN	Medium	Cookie Without HttpOnly Flag - Session cookie missing HttpOnly flag
+10032	WARN	Low	Cookie Without SameSite Attribute - Session cookie missing SameSite
+10033	WARN	Low	Cookie Set for Parent Domain - Overly broad cookie domain
+
+# Passive Scan Findings
+10034	INFO	Low	Hash Disclosure - Hash in response body (may be false positive)
+10035	INFO	Low	Credit Card Disclosure - Potential credit card number in response
+10036	INFO	Low	SSN Disclosure - Potential SSN in response
+10037	INFO	Low	Email Disclosure - Email addresses in response
+10038	INFO	Low	Private IP Disclosure - Internal IP address in response
+10039	INFO	Low	Internal URL Disclosure - Internal URL in response
+
+# Miscellaneous
+10040	WARN	Low	Absence of Anti-CSRF Tokens - Form without CSRF protection
+10041	WARN	Low	Password Autocomplete Enabled - Login form allows autocomplete
+10042	WARN	Low	Insecure Form - Form submits to HTTP from HTTPS page
+10043	WARN	Low	Mixed Content - HTTPS page loads HTTP resources
+10044	WARN	Low	Cacheable HTTPS Response - Sensitive page cached by browser
+
+# Educational Baseline - Known vulnerable endpoints that we INTENTIONALLY have
+# These are suppressed with justification for the educational baseline
+# In remediated version, these would be FAIL or WARN
+40012	SUPPRESS	High	Command Injection in /search endpoint - INTENTIONAL for educational baseline
+40014	SUPPRESS	High	SQL Injection - Not present in this application
+40016	SUPPRESS	High	XSS in /user endpoint - INTENTIONAL for educational baseline
+40018	SUPPRESS	High	Path Traversal - Not directly exploitable in this app
+
+# Custom rules for our specific vulnerable endpoints (hypothetical alert IDs)
+90001	FAIL	High	Custom: Command Injection in /search?q= parameter - shell=True with user input
+90002	FAIL	High	Custom: Hardcoded Credentials in /login endpoint - DUMMY_USERNAME/DUMMY_PASSWORD
+90003	FAIL	High	Custom: Missing Input Validation in /user?name= parameter - no sanitization
+90004	FAIL	Medium	Custom: Missing Security Headers - No CSP, X-Frame-Options, etc. in vulnerable mode
+90005	FAIL	Medium	Custom: Insecure Authentication - Plaintext password comparison, no hashing
+90006	FAIL	Low	Custom: Information Disclosure - Server header reveals Flask version
+90007	WARN	Low	Custom: Verbose Error Messages - Potential stack trace exposure
+
+# Suppress known false positives for this application
+10096	SUPPRESS	Low	Server Leaks Version Information - Expected for Flask dev server
+10097	SUPPRESS	Low	Application Error Disclosure - Test error pages may leak info

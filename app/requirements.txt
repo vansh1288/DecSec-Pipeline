@@ -1,0 +1,40 @@
+# DevSecOps Pipeline - Vulnerable Dependencies (Educational Baseline)
+# These versions contain known CVEs for educational security scanning demonstration.
+# DO NOT USE IN PRODUCTION. See README for CVE details and remediation versions.
+
+# Flask 2.0.1 - CVE-2022-29241 (debug pin exposure), CVE-2023-30861 (route traversal)
+Flask==2.0.1
+
+# Werkzeug 2.0.1 - CVE-2022-29242 (debug pin exposure), CVE-2023-25586 (path traversal)
+Werkzeug==2.0.1
+
+# Jinja2 3.0.1 - CVE-2022-29243 (SSTI via |attr filter), CVE-2024-22195 (Sandbox bypass)
+Jinja2==3.0.1
+
+# urllib3 1.26.5 - CVE-2023-43804 (Cookie header injection), CVE-2024-37891 (Proxy auth)
+urllib3==1.26.5
+
+# requests 2.27.1 - CVE-2023-32681 (Certificate verification bypass), transitive via urllib3
+requests==2.27.1
+
+# certifi 2022.12.7 - No direct CVE but outdated
+certifi==2022.12.7
+
+# idna 3.3 - No direct CVE but outdated
+idna==3.3
+
+# charset-normalizer 2.1.1 - No direct CVE but outdated
+charset-normalizer==2.1.1
+
+# click 8.0.4 - No direct CVE but outdated
+click==8.0.4
+
+# itsdangerous 2.0.1 - CVE-2022-29244 (Secret key exposure in debug mode)
+itsdangerous==2.0.1
+
+# markupsafe 2.0.1 - No direct CVE but outdated
+markupsafe==2.0.1
+
+# Testing dependencies
+pytest==7.1.2
+pytest-cov==3.0.0

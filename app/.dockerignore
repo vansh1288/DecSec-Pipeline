@@ -1,0 +1,81 @@
+# DevSecOps Pipeline - Docker Ignore File
+# Excludes files not needed in the container image
+
+# Git
+.git
+.gitignore
+.github
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache
+.coverage
+htmlcov
+.tox
+.venv
+venv
+env
+ENV
+pip-wheel-metadata
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Reports and scan outputs
+reports/
+*.json
+*.html
+*.xml
+*.sarif
+
+# Test files
+app/tests/
+*.test.py
+test_*.py
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Scripts
+scripts/
+
+# ZAP config
+.zap/
+
+# Docker
+Dockerfile*
+.dockerignore
+docker-compose*.yml
+
+# Local development
+.env
+.env.local
+*.local
+
+# Cache
+.cache/
+.node_modules/

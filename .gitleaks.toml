@@ -1,0 +1,141 @@
+# DevSecOps Pipeline - Gitleaks Configuration
+# Detects secrets in code and git history
+
+[general]
+# Title for the configuration
+title = "DevSecOps Pipeline Gitleaks Config"
+# Exit code when leaks are found (1 = fail, 0 = warn)
+exit-code = 1
+# Verbose output
+verbose = true
+# Redact secrets from output
+redact = true
+# Allowlisted paths (glob patterns)
+allowlist-paths = [
+    "app/tests/**",
+    "**/*.test.py",
+    "**/test_*.py",
+    "reports/**",
+    "*.md",
+    "README*",
+    ".gitleaks.toml",
+    ".github/**",
+    "scripts/**",
+    ".zap/**"
+]
+
+# Allowlisted commit SHAs (empty for this project)
+allowlist-commits = []
+
+# Allowlisted regex patterns for intentional test values
+allowlist-regex = [
+    # Dummy test credentials used in educational vulnerable app
+    "(?i)dummy.*password.*password123",
+    "(?i)dummy.*username.*admin",
+    "(?i)test.*credential.*dummy",
+    # Example/fake values in documentation and tests
+    "(?i)example\.com",
+    "(?i)fake.*secret",
+    "(?i)placeholder.*key",
+    "(?i)dummy.*token",
+    "(?i)test.*api.*key",
+    # Known safe patterns in test files
+    "password123",
+    "dummy-token-123",
+    "demo-jwt-token"
+]
+
+[[rules]]
+# Generic API Key detection
+id = "generic-api-key"
+description = "Generic API Key pattern"
+regex = '''(?i)(?:api[_-]?key|apikey)\s*[:=]\s*["']?[a-zA-Z0-9_\-]{20,}["']?'''
+tags = ["key", "api"]
+entropy = 4.5
+
+[[rules]]
+# Generic Secret detection
+id = "generic-secret"
+description = "Generic secret pattern"
+regex = '''(?i)(?:secret|password|passwd|pwd)\s*[:=]\s*["']?[a-zA-Z0-9_\-!@#$%^&*]{8,}["']?'''
+tags = ["secret", "password"]
+entropy = 3.0
+
+[[rules]]
+# AWS Access Key ID
+id = "aws-access-key-id"
+description = "AWS Access Key ID"
+regex = '''(?i)(?:aws[_-]?access[_-]?key[_-]?id|aws_access_key_id)\s*[:=]\s*["']?[A-Z0-9]{20}["']?'''
+tags = ["aws", "key"]
+entropy = 4.0
+
+[[rules]]
+# AWS Secret Access Key
+id = "aws-secret-access-key"
+description = "AWS Secret Access Key"
+regex = '''(?i)(?:aws[_-]?secret[_-]?access[_-]?key|aws_secret_access_key)\s*[:=]\s*["']?[A-Za-z0-9/+=]{40}["']?'''
+tags = ["aws", "secret"]
+entropy = 4.0
+
+[[rules]]
+# GitHub Token
+id = "github-token"
+description = "GitHub Personal Access Token"
+regex = '''(?i)(?:github[_-]?token|gh[_-]?token|ghp)\s*[:=]\s*["']?[a-zA-Z0-9_]{35,}["']?'''
+tags = ["github", "token"]
+entropy = 4.5
+
+[[rules]]
+# Generic Private Key
+id = "private-key"
+description = "Private key (RSA, DSA, EC, OPENSSH)"
+regex = '''-----BEGIN (?:RSA|DSA|EC|OPENSSH) PRIVATE KEY-----'''
+tags = ["key", "private"]
+
+[[rules]]
+# Slack Token
+id = "slack-token"
+description = "Slack API Token"
+regex = '''(?i)(?:slack[_-]?token|xox[baprs]-[0-9a-zA-Z-]{10,})'''
+tags = ["slack", "token"]
+
+[[rules]]
+# Database Connection String
+id = "database-url"
+description = "Database connection string with credentials"
+regex = '''(?i)(?:database[_-]?url|db[_-]?url|connection[_-]?string)\s*[:=]\s*["']?(?:postgres|mysql|mongodb|redis)://[^:]+:[^@]+@'''
+tags = ["database", "credential"]
+
+[[rules]]
+# JWT Token
+id = "jwt-token"
+description = "JSON Web Token"
+regex = '''eyJ[a-zA-Z0-9_-]{10,}\.[a-zA-Z0-9_-]{10,}\.[a-zA-Z0-9_-]{10,}'''
+tags = ["jwt", "token"]
+
+[[rules]]
+# Docker Config Auth
+id = "docker-config-auth"
+description = "Docker config.json auth entry"
+regex = '''"auth"\s*:\s*"[a-zA-Z0-9+/=]{20,}"'''
+tags = ["docker", "registry"]
+
+[[rules]]
+# NPM Token
+id = "npm-token"
+description = "NPM authentication token"
+regex = '''(?i)(?:npm[_-]?token|_authToken)\s*[:=]\s*["']?[a-zA-Z0-9_-]{20,}["']?'''
+tags = ["npm", "token"]
+
+# Disable some noisy rules for this educational project
+[[rules]]
+id = "generic-base64"
+disabled = true
+
+[[rules]]
+id = "hex-entropy"
+disabled = true
+
+[[rules]]
+id = "base64-entropy"
+disabled = true
