@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevSecOps Security Pipeline Report</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 20px; color: #333; }
+        h1 { color: #1a1a1a; border-bottom: 2px solid #e1e4e8; padding-bottom: 10px; }
+        h2 { color: #24292e; margin-top: 30px; border-bottom: 1px solid #e1e4e8; padding-bottom: 5px; }
+        h3 { color: #24292e; margin-top: 24px; }
+        h4 { color: #24292e; }
+        table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+        th, td { border: 1px solid #e1e4e8; padding: 8px 12px; text-align: left; }
+        th { background-color: #f6f8fa; font-weight: 600; }
+        tr:nth-child(2n) { background-color: #f6f8fa; }
+        .passed { color: #28a745; font-weight: bold; }
+        .failed { color: #cb2431; font-weight: bold; }
+        .critical { color: #cb2431; font-weight: bold; }
+        .high { color: #cb2431; }
+        .medium { color: #f97583; }
+        .low { color: #6a737d; }
+        code { background: #f6f8fa; padding: 2px 6px; border-radius: 3px; font-family: 'SF Mono', Monaco, monospace; }
+        pre { background: #f6f8fa; padding: 16px; border-radius: 6px; overflow: auto; }
+        .metadata { font-size: 0.9em; color: #586069; }
+        .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e1e4e8; color: #586069; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+<h1>DevSecOps Security Pipeline Report</h1>
+
+<p><strong>Generated:<strong> 2026-09-30T23:28:51.677745ZZ</p>
+<p><strong>Pipeline Run:<strong> test-run</p>
+<p><strong>Commit:<strong> test-sha</p>
+<p><strong>Branch:<strong> test-branch</p>
+
+<h2>Overall Security Gate: FAILED</h2>
+
+<h2>Findings Summary</h2>
+
+<table>
+<thead><tr>
+<th>Severity</th>
+<th>Count</th>
+</tr></thead><tbody>
+<tr>
+<td>High</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td>58</td>
+</tr>
+<tr>
+<td>Low</td>
+<td>95</td>
+</tr>
+<tr>
+<td>**Total**</td>
+<td>**172**</td>
+</tr>
+</tbody></table>
+
+<h2>Findings by Scanner</h2>
+
+<table>
+<thead><tr>
+<th>Scanner</th>
+<th>Count</th>
+</tr></thead><tbody>
+<tr>
+<td>bandit</td>
+<td>93</td>
+</tr>
+<tr>
+<td>osv-scanner</td>
+<td>74</td>
+</tr>
+<tr>
+<td>gitleaks</td>
+<td>3</td>
+</tr>
+<tr>
+<td>trivy</td>
+<td>2</td>
+</tr>
+</tbody></table>
+
+<h2>Policy Violations (Security Gate Failures)</h2>
+
+<p>These findings violate the configured security policy and caused the gate to fail.</p>
+
+<table>
+<thead><tr>
+<th>Severity</th>
+<th>Scanner</th>
+<th>Rule ID</th>
+<th>Message</th>
+<th>Location</th>
+</tr></thead><tbody>
+<tr>
+<td>High</td>
+<td>gitleaks</td>
+<td>generic-secret</td>
+<td>Generic secret pattern</td>
+<td>app/app.py:30</td>
+</tr>
+<tr>
+<td>High</td>
+<td>gitleaks</td>
+<td>generic-secret</td>
+<td>Generic secret pattern</td>
+<td>app/tests/test_security.py:51</td>
+</tr>
+<tr>
+<td>High</td>
+<td>gitleaks</td>
+<td>generic-secret</td>
+<td>Generic secret pattern</td>
+<td>app/tests/test_security.py:126</td>
+</tr>
+<tr>
+<td>High</td>
+<td>bandit</td>
+<td>B602</td>
+<td>subprocess call with shell=True identified, security issue.</td>
+<td>app/app.py:238</td>
+</tr>
+<tr>
+<td>High</td>
+<td>osv-scanner</td>
+<td>GHSA-m2qf-hxjv-5gpq</td>
+<td>Vulnerable dependency: flask@2.0.1</td>
+<td>None</td>
+</tr>
+<tr>
+<td>High</td>
+<td>osv-scanner</td>
+<td>GHSA-2g68-c3qc-8985</td>
+<td>Vulnerable dependency: werkzeug@2.0.1</td>
+<td>None</td>
+</tr>
+<tr>
+<td>High</td>
+<td>osv-scanner</td>
+<td>GHSA-xg9f-g7g7-2323</td>
+<td>Vulnerable dependency: werkzeug@2.0.1</td>
+<td>None</td>
+</tr>
+<tr>
+<td>High</td>
+<td>osv-scanner</td>
+<td>GHSA-xqr8-7jwr-rhp7</td>
+<td>Vulnerable dependency: certifi@2022.12.7</td>
+<td>None</td>
+</tr>
+<tr>
+<td>High</td>
+<td>osv-scanner</td>
+<td>GHSA-hc5x-x2vx-497g</td>
+<td>Vulnerable dependency: gunicorn@21.2.0</td>
+<td>None</td>
+</tr>
+<tr>
+<td>High</td>
+<td>osv-scanner</td>
+<td>GHSA-w3h3-4rj7-4ph4</td>
+<td>Vulnerable dependency: gunicorn@21.2.0</td>
+<td>None</td>
+</tr>
+<tr>
+<td>High</td>
+<td>osv-scanner</td>
+<td>GHSA-2xpw-w6gg-jr37</td>
+<td>Vulnerable dependency: urllib3@1.26.5</td>
+<td>None</td>
+</tr>
+<tr>
+<td>High</td>
+<td>osv-scanner</td>
+<td>GHSA-38jv-5279-wg99</td>
+<td>Vulnerable dependency: urllib3@1.26.5</td>
+<td>None</td>
+</tr>
+<tr>
+<td>High</td>
+<td>osv-scanner</td>
+<td>GHSA-8988-9cw3-xx77</td>
+<td>Vulnerable dependency: urllib3@1.26.5</td>
+<td>None</td>
+</tr>
+<tr>
+<td>High</td>
+<td>osv-scanner</td>
+<td>GHSA-gm62-xv2j-4w53</td>
+<td>Vulnerable dependency: urllib3@1.26.5</td>
+<td>None</td>
+</tr>
+<tr>
+<td>High</td>
+<td>osv-scanner</td>
+<td>GHSA-qccp-gfcp-xxvc</td>
+<td>Vulnerable dependency: urllib3@1.26.5</td>
+<td>None</td>
+</tr>
+<tr>
+<td>High</td>
+<td>osv-scanner</td>
+<td>GHSA-v845-jxx5-vc9f</td>
+<td>Vulnerable dependency: urllib3@1.26.5</td>
+<td>None</td>
+</tr>
+<tr>
+<td>High</td>
+<td>osv-scanner</td>
+<td>GHSA-vxq7-64xx-v4gw</td>
+<td>Vulnerable dependency: urllib3@1.26.5</td>
+<td>None</td>
+</tr>
+<tr>
+<td>High</td>
+<td>trivy</td>
+<td>CVE-2023-1234</td>
+<td>Buffer overflow in libc6 in libc6</td>
+<td>devsecops-pipeline:1.0.0-vulnerable</td>
+</tr>
+<tr>
+<td>High</td>
+<td>trivy</td>
+<td>CVE-2023-30861</td>
+<td>Flask route traversal vulnerability in Flask</td>
+<td>devsecops-pipeline:1.0.0-vulnerable</td>
+</tr>
+</tbody></table>
+
+<h2>Detailed Findings</h2>
+
+<h3>High (19)</h3>
+
+<p>#### gitleaks: generic-secret</p>
+<p><strong>Message:<strong> Generic secret pattern</p>
+<p><strong>Location:<strong> app/app.py:30</p>
+
+<p>#### gitleaks: generic-secret</p>
+<p><strong>Message:<strong> Generic secret pattern</p>
+<p><strong>Location:<strong> app/tests/test_security.py:51</p>
+
+<p>#### gitleaks: generic-secret</p>
+<p><strong>Message:<strong> Generic secret pattern</p>
+<p><strong>Location:<strong> app/tests/test_security.py:126</p>
+
+<p>#### bandit: B602</p>
+<p><strong>Message:<strong> subprocess call with shell=True identified, security issue.</p>
+<p><strong>Location:<strong> app/app.py:238</p>
+<p><strong>CWEs:<strong> CWE-78</p>
+
+<p>#### osv-scanner: GHSA-m2qf-hxjv-5gpq</p>
+<p><strong>Message:<strong> Vulnerable dependency: flask@2.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2023-30861</p>
+<p><strong>Fixed Versions:<strong> 2.3.2, 2.2.5</p>
+<p><strong>References:<strong> https://github.com/pallets/flask/security/advisories/GHSA-m2qf-hxjv-5gpq, https://nvd.nist.gov/vuln/detail/CVE-2023-30861, https://github.com/pallets/flask/commit/70f906c51ce49c485f1d355703e9cc3386b1cc2b</p>
+
+<p>#### osv-scanner: GHSA-2g68-c3qc-8985</p>
+<p><strong>Message:<strong> Vulnerable dependency: werkzeug@2.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2024-34069</p>
+<p><strong>Fixed Versions:<strong> 3.0.3</p>
+<p><strong>References:<strong> https://github.com/pallets/werkzeug/security/advisories/GHSA-2g68-c3qc-8985, https://nvd.nist.gov/vuln/detail/CVE-2024-34069, https://github.com/pallets/werkzeug/commit/3386395b24c7371db11a5b8eaac0c91da5362692</p>
+
+<p>#### osv-scanner: GHSA-xg9f-g7g7-2323</p>
+<p><strong>Message:<strong> Vulnerable dependency: werkzeug@2.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2023-25577</p>
+<p><strong>Fixed Versions:<strong> 2.2.3</p>
+<p><strong>References:<strong> https://github.com/pallets/werkzeug/security/advisories/GHSA-xg9f-g7g7-2323, https://nvd.nist.gov/vuln/detail/CVE-2023-25577, https://github.com/pallets/werkzeug/commit/517cac5a804e8c4dc4ed038bb20dacd038e7a9f1</p>
+
+<p>#### osv-scanner: GHSA-xqr8-7jwr-rhp7</p>
+<p><strong>Message:<strong> Vulnerable dependency: certifi@2022.12.7</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2023-37920</p>
+<p><strong>Fixed Versions:<strong> 2023.7.22</p>
+<p><strong>References:<strong> https://github.com/certifi/python-certifi/security/advisories/GHSA-xqr8-7jwr-rhp7, https://nvd.nist.gov/vuln/detail/CVE-2023-37920, https://github.com/certifi/python-certifi/commit/8fb96ed81f71e7097ed11bc4d9b19afd7ea5c909</p>
+
+<p>#### osv-scanner: GHSA-hc5x-x2vx-497g</p>
+<p><strong>Message:<strong> Vulnerable dependency: gunicorn@21.2.0</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2024-6827</p>
+<p><strong>Fixed Versions:<strong> 22.0.0</p>
+<p><strong>References:<strong> https://nvd.nist.gov/vuln/detail/CVE-2024-6827, https://github.com/benoitc/gunicorn/issues/3087, https://github.com/benoitc/gunicorn/issues/3278</p>
+
+<p>#### osv-scanner: GHSA-w3h3-4rj7-4ph4</p>
+<p><strong>Message:<strong> Vulnerable dependency: gunicorn@21.2.0</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2024-1135</p>
+<p><strong>Fixed Versions:<strong> 22.0.0</p>
+<p><strong>References:<strong> https://nvd.nist.gov/vuln/detail/CVE-2024-1135, https://github.com/benoitc/gunicorn/issues/3091, https://github.com/benoitc/gunicorn/pull/3113</p>
+
+<p>#### osv-scanner: GHSA-2xpw-w6gg-jr37</p>
+<p><strong>Message:<strong> Vulnerable dependency: urllib3@1.26.5</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2025-66471</p>
+<p><strong>Fixed Versions:<strong> 2.6.0</p>
+<p><strong>References:<strong> https://github.com/urllib3/urllib3/security/advisories/GHSA-2xpw-w6gg-jr37, https://nvd.nist.gov/vuln/detail/CVE-2025-66471, https://github.com/urllib3/urllib3/commit/c19571de34c47de3a766541b041637ba5f716ed7</p>
+
+<p>#### osv-scanner: GHSA-38jv-5279-wg99</p>
+<p><strong>Message:<strong> Vulnerable dependency: urllib3@1.26.5</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2026-21441</p>
+<p><strong>Fixed Versions:<strong> 2.6.3</p>
+<p><strong>References:<strong> https://github.com/urllib3/urllib3/security/advisories/GHSA-38jv-5279-wg99, https://nvd.nist.gov/vuln/detail/CVE-2026-21441, https://github.com/urllib3/urllib3/commit/8864ac407bba8607950025e0979c4c69bc7abc7b</p>
+
+<p>#### osv-scanner: GHSA-8988-9cw3-xx77</p>
+<p><strong>Message:<strong> Vulnerable dependency: urllib3@1.26.5</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2026-97687</p>
+<p><strong>Fixed Versions:<strong> 2.8.0</p>
+<p><strong>References:<strong> https://github.com/urllib3/urllib3/security/advisories/GHSA-8988-9cw3-xx77, https://nvd.nist.gov/vuln/detail/CVE-2026-97687, https://github.com/urllib3/urllib3/pull/5093</p>
+
+<p>#### osv-scanner: GHSA-gm62-xv2j-4w53</p>
+<p><strong>Message:<strong> Vulnerable dependency: urllib3@1.26.5</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2025-66418</p>
+<p><strong>Fixed Versions:<strong> 2.6.0</p>
+<p><strong>References:<strong> https://github.com/urllib3/urllib3/security/advisories/GHSA-gm62-xv2j-4w53, https://nvd.nist.gov/vuln/detail/CVE-2025-66418, https://github.com/urllib3/urllib3/commit/24d7b67eac89f94e11003424bcf0d8f7b72222a8</p>
+
+<p>#### osv-scanner: GHSA-qccp-gfcp-xxvc</p>
+<p><strong>Message:<strong> Vulnerable dependency: urllib3@1.26.5</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2026-44431</p>
+<p><strong>Fixed Versions:<strong> 2.7.0</p>
+<p><strong>References:<strong> https://github.com/urllib3/urllib3/security/advisories/GHSA-qccp-gfcp-xxvc, https://nvd.nist.gov/vuln/detail/CVE-2026-44431, https://github.com/urllib3/urllib3</p>
+
+<p>#### osv-scanner: GHSA-v845-jxx5-vc9f</p>
+<p><strong>Message:<strong> Vulnerable dependency: urllib3@1.26.5</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2023-43804</p>
+<p><strong>Fixed Versions:<strong> 2.0.6, 1.26.17</p>
+<p><strong>References:<strong> https://github.com/urllib3/urllib3/security/advisories/GHSA-v845-jxx5-vc9f, https://nvd.nist.gov/vuln/detail/CVE-2023-43804, https://github.com/urllib3/urllib3/commit/01220354d389cd05474713f8c982d05c9b17aafb</p>
+
+<p>#### osv-scanner: GHSA-vxq7-64xx-v4gw</p>
+<p><strong>Message:<strong> Vulnerable dependency: urllib3@1.26.5</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2026-97689</p>
+<p><strong>Fixed Versions:<strong> 2.8.0</p>
+<p><strong>References:<strong> https://github.com/urllib3/urllib3/security/advisories/GHSA-vxq7-64xx-v4gw, https://nvd.nist.gov/vuln/detail/CVE-2026-97689, https://github.com/urllib3/urllib3/commit/cd770b059b543be29298ea5c52afb0b1b090f5ed</p>
+
+<p>#### trivy: CVE-2023-1234</p>
+<p><strong>Message:<strong> Buffer overflow in libc6 in libc6</p>
+<p><strong>Location:<strong> devsecops-pipeline:1.0.0-vulnerable</p>
+<p><strong>CVEs:<strong> CVE-2023-1234</p>
+<p><strong>Fixed Versions:<strong> 2.36-10</p>
+<p><strong>References:<strong> https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-1234</p>
+
+<p>#### trivy: CVE-2023-30861</p>
+<p><strong>Message:<strong> Flask route traversal vulnerability in Flask</p>
+<p><strong>Location:<strong> devsecops-pipeline:1.0.0-vulnerable</p>
+<p><strong>CVEs:<strong> CVE-2023-30861</p>
+<p><strong>Fixed Versions:<strong> 2.3.2</p>
+<p><strong>References:<strong> https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-30861</p>
+
+<h3>Medium (58)</h3>
+
+<p>#### osv-scanner: PYSEC-2023-62</p>
+<p><strong>Message:<strong> Vulnerable dependency: flask@2.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2023-30861</p>
+<p><strong>Fixed Versions:<strong> 70f906c51ce49c485f1d355703e9cc3386b1cc2b, afd63b16170b7c047f5758eb910c416511e9c965, 2.2.5, 2.3.2</p>
+<p><strong>References:<strong> https://github.com/pallets/flask/commit/70f906c51ce49c485f1d355703e9cc3386b1cc2b, https://github.com/pallets/flask/releases/tag/2.3.2, https://github.com/pallets/flask/releases/tag/2.2.5</p>
+
+<p>#### osv-scanner: PYSEC-2026-2151</p>
+<p><strong>Message:<strong> Vulnerable dependency: flask@2.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2026-27205</p>
+<p><strong>Fixed Versions:<strong> 3.1.3</p>
+<p><strong>References:<strong> https://github.com/pallets/flask/releases/tag/3.1.3, https://github.com/pallets/flask/security/advisories/GHSA-68rp-wp8r-4726, https://github.com/pallets/flask/commit/089cb86dd22bff589a4eafb7ab8e42dc357623b4</p>
+
+<p>#### osv-scanner: PYSEC-2026-1471</p>
+<p><strong>Message:<strong> Vulnerable dependency: jinja2@3.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2025-27516</p>
+<p><strong>Fixed Versions:<strong> 3.1.6</p>
+<p><strong>References:<strong> https://github.com/pallets/jinja/security/advisories/GHSA-cpwx-vrp4-4pq7, https://nvd.nist.gov/vuln/detail/CVE-2025-27516, https://github.com/pallets/jinja/commit/90457bbf33b8662926ae65cdde4c4c32e756e403</p>
+
+<p>#### osv-scanner: PYSEC-2026-1472</p>
+<p><strong>Message:<strong> Vulnerable dependency: jinja2@3.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2024-56201</p>
+<p><strong>Fixed Versions:<strong> 3.1.5</p>
+<p><strong>References:<strong> https://github.com/pallets/jinja/security/advisories/GHSA-gmj6-6f8f-6699, https://nvd.nist.gov/vuln/detail/CVE-2024-56201, https://github.com/pallets/jinja/issues/1792</p>
+
+<p>#### osv-scanner: PYSEC-2026-1473</p>
+<p><strong>Message:<strong> Vulnerable dependency: jinja2@3.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2024-22195</p>
+<p><strong>Fixed Versions:<strong> 3.1.3</p>
+<p><strong>References:<strong> https://github.com/pallets/jinja/security/advisories/GHSA-h5c8-rqwp-cp95, https://nvd.nist.gov/vuln/detail/CVE-2024-22195, https://github.com/pallets/jinja/commit/716795349a41d4983a9a4771f7d883c96ea17be7</p>
+
+<p>#### osv-scanner: PYSEC-2026-1474</p>
+<p><strong>Message:<strong> Vulnerable dependency: jinja2@3.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2024-34064</p>
+<p><strong>Fixed Versions:<strong> 3.1.4</p>
+<p><strong>References:<strong> https://github.com/pallets/jinja/security/advisories/GHSA-h75v-3vvj-5mfj, https://nvd.nist.gov/vuln/detail/CVE-2024-34064, https://github.com/pallets/jinja/commit/0668239dc6b44ef38e7a6c9f91f312fd4ca581cb</p>
+
+<p>#### osv-scanner: PYSEC-2026-1475</p>
+<p><strong>Message:<strong> Vulnerable dependency: jinja2@3.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2024-56326</p>
+<p><strong>Fixed Versions:<strong> 3.1.5</p>
+<p><strong>References:<strong> https://github.com/pallets/jinja/security/advisories/GHSA-q2x7-8rv6-6q7h, https://nvd.nist.gov/vuln/detail/CVE-2024-56326, https://github.com/pallets/jinja/commit/48b0687e05a5466a91cd5812d604fa37ad0943b4</p>
+
+<p>#### osv-scanner: GHSA-cpwx-vrp4-4pq7</p>
+<p><strong>Message:<strong> Vulnerable dependency: jinja2@3.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2025-27516</p>
+<p><strong>Fixed Versions:<strong> 3.1.6</p>
+<p><strong>References:<strong> https://github.com/pallets/jinja/security/advisories/GHSA-cpwx-vrp4-4pq7, https://nvd.nist.gov/vuln/detail/CVE-2025-27516, https://github.com/pallets/jinja/commit/90457bbf33b8662926ae65cdde4c4c32e756e403</p>
+
+<p>#### osv-scanner: GHSA-gmj6-6f8f-6699</p>
+<p><strong>Message:<strong> Vulnerable dependency: jinja2@3.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2024-56201</p>
+<p><strong>Fixed Versions:<strong> 3.1.5</p>
+<p><strong>References:<strong> https://github.com/pallets/jinja/security/advisories/GHSA-gmj6-6f8f-6699, https://nvd.nist.gov/vuln/detail/CVE-2024-56201, https://github.com/pallets/jinja/issues/1792</p>
+
+<p>#### osv-scanner: GHSA-h5c8-rqwp-cp95</p>
+<p><strong>Message:<strong> Vulnerable dependency: jinja2@3.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2024-22195</p>
+<p><strong>Fixed Versions:<strong> 3.1.3</p>
+<p><strong>References:<strong> https://github.com/pallets/jinja/security/advisories/GHSA-h5c8-rqwp-cp95, https://nvd.nist.gov/vuln/detail/CVE-2024-22195, https://github.com/pallets/jinja/commit/716795349a41d4983a9a4771f7d883c96ea17be7</p>
+
+<p>#### osv-scanner: GHSA-h75v-3vvj-5mfj</p>
+<p><strong>Message:<strong> Vulnerable dependency: jinja2@3.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2024-34064</p>
+<p><strong>Fixed Versions:<strong> 3.1.4</p>
+<p><strong>References:<strong> https://github.com/pallets/jinja/security/advisories/GHSA-h75v-3vvj-5mfj, https://nvd.nist.gov/vuln/detail/CVE-2024-34064, https://github.com/pallets/jinja/commit/0668239dc6b44ef38e7a6c9f91f312fd4ca581cb</p>
+
+<p>#### osv-scanner: GHSA-q2x7-8rv6-6q7h</p>
+<p><strong>Message:<strong> Vulnerable dependency: jinja2@3.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2024-56326</p>
+<p><strong>Fixed Versions:<strong> 3.1.5</p>
+<p><strong>References:<strong> https://github.com/pallets/jinja/security/advisories/GHSA-q2x7-8rv6-6q7h, https://nvd.nist.gov/vuln/detail/CVE-2024-56326, https://github.com/pallets/jinja/commit/48b0687e05a5466a91cd5812d604fa37ad0943b4</p>
+
+<p>#### osv-scanner: PYSEC-2022-203</p>
+<p><strong>Message:<strong> Vulnerable dependency: werkzeug@2.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2022-29361</p>
+<p><strong>Fixed Versions:<strong> 9a3a981d70d2e9ec3344b5192f86fcaf3210cd85, 2.1.1</p>
+<p><strong>References:<strong> https://github.com/pallets/werkzeug/commit/9a3a981d70d2e9ec3344b5192f86fcaf3210cd85, https://github.com/pallets/werkzeug/issues/2420</p>
+
+<p>#### osv-scanner: PYSEC-2023-221</p>
+<p><strong>Message:<strong> Vulnerable dependency: werkzeug@2.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2023-46136</p>
+<p><strong>Fixed Versions:<strong> f3c803b3ade485a45f12b6d6617595350c0f03e2, f2300208d5e2a5076cbbb4c2aad71096fd040ef9, 2.3.8, 3.0.1</p>
+<p><strong>References:<strong> https://github.com/pallets/werkzeug/commit/f3c803b3ade485a45f12b6d6617595350c0f03e2, https://github.com/pallets/werkzeug/security/advisories/GHSA-hrfv-mqp8-q5rw</p>
+
+<p>#### osv-scanner: PYSEC-2023-57</p>
+<p><strong>Message:<strong> Vulnerable dependency: werkzeug@2.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2023-23934</p>
+<p><strong>Fixed Versions:<strong> cf275f42acad1b5950c50ffe8ef58fe62cdce028, 2.2.3</p>
+<p><strong>References:<strong> https://github.com/pallets/werkzeug/security/advisories/GHSA-px8h-6qxv-m22q, https://github.com/pallets/werkzeug/commit/cf275f42acad1b5950c50ffe8ef58fe62cdce028, https://github.com/pallets/werkzeug/releases/tag/2.2.3</p>
+
+<p>#### osv-scanner: PYSEC-2023-58</p>
+<p><strong>Message:<strong> Vulnerable dependency: werkzeug@2.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2023-25577</p>
+<p><strong>Fixed Versions:<strong> 517cac5a804e8c4dc4ed038bb20dacd038e7a9f1, 2.2.3</p>
+<p><strong>References:<strong> https://github.com/pallets/werkzeug/commit/517cac5a804e8c4dc4ed038bb20dacd038e7a9f1, https://github.com/pallets/werkzeug/releases/tag/2.2.3, https://github.com/pallets/werkzeug/security/advisories/GHSA-xg9f-g7g7-2323</p>
+
+<p>#### osv-scanner: PYSEC-2026-2043</p>
+<p><strong>Message:<strong> Vulnerable dependency: werkzeug@2.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2024-34069</p>
+<p><strong>Fixed Versions:<strong> 3.0.3</p>
+<p><strong>References:<strong> https://github.com/pallets/werkzeug/security/advisories/GHSA-2g68-c3qc-8985, https://nvd.nist.gov/vuln/detail/CVE-2024-34069, https://github.com/pallets/werkzeug/commit/3386395b24c7371db11a5b8eaac0c91da5362692</p>
+
+<p>#### osv-scanner: PYSEC-2026-2044</p>
+<p><strong>Message:<strong> Vulnerable dependency: werkzeug@2.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2026-21860</p>
+<p><strong>Fixed Versions:<strong> 3.1.5</p>
+<p><strong>References:<strong> https://github.com/pallets/werkzeug/security/advisories/GHSA-87hc-h4r5-73f7, https://nvd.nist.gov/vuln/detail/CVE-2026-21860, https://github.com/pallets/werkzeug/commit/7ae1d254e04a0c33e241ac1cca4783ce6c875ca3</p>
+
+<p>#### osv-scanner: PYSEC-2026-2045</p>
+<p><strong>Message:<strong> Vulnerable dependency: werkzeug@2.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2024-49766</p>
+<p><strong>Fixed Versions:<strong> 3.0.6</p>
+<p><strong>References:<strong> https://github.com/pallets/werkzeug/security/advisories/GHSA-f9vj-2wh5-fj8j, https://nvd.nist.gov/vuln/detail/CVE-2024-49766, https://github.com/pallets/werkzeug/commit/2767bcb10a7dd1c297d812cc5e6d11a474c1f092</p>
+
+<p>#### osv-scanner: PYSEC-2026-2046</p>
+<p><strong>Message:<strong> Vulnerable dependency: werkzeug@2.0.1</p>
+<p><strong>Location:<strong> None</p>
+<p><strong>CVEs:<strong> CVE-2025-66221</p>
+<p><strong>Fixed Versions:<strong> 3.1.4</p>
+<p><strong>References:<strong> https://github.com/pallets/werkzeug/security/advisories/GHSA-hgf8-39gv-g3f2, https://nvd.nist.gov/vuln/detail/CVE-2025-66221, https://github.com/pallets/werkzeug/commit/4b833376a45c323a189cd11d2362bcffdb1c0c13</p>
+
+<p><em>... and 38 more medium findings<em></p>
+
+<h3>Low (95)</h3>
+
+<p>#### bandit: B404</p>
+<p><strong>Message:<strong> Consider possible security implications associated with the subprocess module.</p>
+<p><strong>Location:<strong> app/app.py:13</p>
+<p><strong>CWEs:<strong> CWE-78</p>
+
+<p>#### bandit: B105</p>
+<p><strong>Message:<strong> Possible hardcoded password: 'scrypt:32768:8:1$salt$hash'</p>
+<p><strong>Location:<strong> app/app.py:69</p>
+<p><strong>CWEs:<strong> CWE-259</p>
+
+<p>#### bandit: B607</p>
+<p><strong>Message:<strong> Starting a process with a partial executable path</p>
+<p><strong>Location:<strong> app/app.py:214</p>
+<p><strong>CWEs:<strong> CWE-78</p>
+
+<p>#### bandit: B603</p>
+<p><strong>Message:<strong> subprocess call - check for execution of untrusted input.</p>
+<p><strong>Location:<strong> app/app.py:214</p>
+<p><strong>CWEs:<strong> CWE-78</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:31</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:32</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:38</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:39</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:40</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:49</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:54</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:60</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:69</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:71</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:72</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:77</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:79</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:84</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:86</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p>#### bandit: B101</p>
+<p><strong>Message:<strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</p>
+<p><strong>Location:<strong> app/tests\test_app.py:96</p>
+<p><strong>CWEs:<strong> CWE-703</p>
+
+<p><em>... and 75 more low findings<em></p>
+
+<h2>Remediation Guidance</h2>
+
+<h3>GITLEAKS Remediation</h3>
+
+<p>- Remove hardcoded secrets from source code</p>
+<p>- Use environment variables or secret management systems</p>
+<p>- Rotate any exposed credentials immediately</p>
+<p>- Add secret scanning to pre-commit hooks</p>
+
+<h3>BANDIT Remediation</h3>
+
+<p>- Review and fix insecure code patterns identified</p>
+<p>- Use safe APIs (e.g., `subprocess.run` without `shell=True`)</p>
+<p>- Implement input validation and sanitization</p>
+<p>- Use parameterized queries for database operations</p>
+
+<h3>OSV-SCANNER Remediation</h3>
+
+<p>- Update vulnerable dependencies to fixed versions</p>
+<p>- Check for breaking changes before upgrading</p>
+<p>- Pin dependencies to specific secure versions</p>
+<p>- Enable Dependabot or similar automated updates</p>
+
+<h3>TRIVY Remediation</h3>
+
+<p>- Update base image to latest secure version</p>
+<p>- Remove unnecessary packages from container</p>
+<p>- Use distroless or minimal base images</p>
+<p>- Scan images regularly in CI/CD</p>
+
+<h2>Execution Metadata</h2>
+
+<table>
+<thead><tr>
+<th>Property</th>
+<th>Value</th>
+</tr></thead><tbody>
+<tr>
+<td>evaluated_at</td>
+<td>2026-09-30T23:28:44.418947Z</td>
+</tr>
+<tr>
+<td>total_findings</td>
+<td>172</td>
+</tr>
+<tr>
+<td>policy_violations</td>
+<td>19</td>
+</tr>
+<tr>
+<td>suppressed_findings</td>
+<td>0</td>
+</tr>
+<tr>
+<td>scanner_failures</td>
+<td>1</td>
+</tr>
+<tr>
+<td>missing_reports</td>
+<td>1</td>
+</tr>
+<tr>
+<td>policy</td>
+<td>{"mode": "strict", "severity": {"critical": "fail", "high": "fail", "medium": "warn", "low": "info", "informational": "info", "unknown": "fail"}, "scanner_failures": "fail", "missing_reports": "fail"}</td>
+</tr>
+</tbody></table>
+
+<hr>
+<p><em>Report generated by DevSecOps Security Pipeline<em></p>
+</body>
+</html>

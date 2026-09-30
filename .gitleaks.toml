@@ -34,13 +34,12 @@ allowlist-regex = [
     "(?i)dummy.*username.*admin",
     "(?i)test.*credential.*dummy",
     # Example/fake values in documentation and tests
-    "(?i)example\.com",
+    "(?i)example\\.com",
     "(?i)fake.*secret",
     "(?i)placeholder.*key",
     "(?i)dummy.*token",
     "(?i)test.*api.*key",
     # Known safe patterns in test files
-    "password123",
     "dummy-token-123",
     "demo-jwt-token"
 ]
@@ -131,11 +130,14 @@ tags = ["npm", "token"]
 [[rules]]
 id = "generic-base64"
 disabled = true
+regex = "^$"
 
 [[rules]]
 id = "hex-entropy"
 disabled = true
+regex = "^$"
 
 [[rules]]
 id = "base64-entropy"
 disabled = true
+regex = "^$"

@@ -1,0 +1,221 @@
+name: DevSecOps Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: "3.11"
+  APP_DIR: "./app"
+  REPORTS_DIR: "./reports"
+  SCRIPTS_DIR: "./scripts"
+  IMAGE_NAME: "devsecops-pipeline:1.0.0-vulnerable"
+  # Pinned scanner versions for reproducibility
+  BANDIT_VERSION: "1.7.10"
+  SEMGREP_VERSION: "1.113.0"
+  PIP_AUDIT_VERSION: "2.8.0"
+  OSV_SCANNER_VERSION: "1.9.1"
+  GITLEAKS_VERSION: "8.23.1"
+  TRIVY_VERSION: "0.57.1"
+  ZAP_DOCKER_VERSION: "2.14.0"
+
+jobs:
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.APP_DIR }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ${{ env.APP_DIR }}/requirements.txt
+
+      - name: Install application dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: |
+          python -m pytest tests/ -v --tb=short
+
+  pipeline:
+    name: Security Pipeline
+    runs-on: ubuntu-latest
+    needs: test
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ${{ env.APP_DIR }}/requirements.txt
+
+      - name: Install application dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ${{ env.APP_DIR }}/requirements.txt
+
+      - name: Install Python-based security scanners
+        run: |
+          pip install --no-cache-dir \
+            bandit==${{ env.BANDIT_VERSION }} \
+            semgrep==${{ env.SEMGREP_VERSION }} \
+            pip-audit==${{ env.PIP_AUDIT_VERSION }}
+
+      - name: Install Gitleaks
+        run: |
+          curl -fsSL "https://github.com/gitleaks/gitleaks/releases/download/v${{ env.GITLEAKS_VERSION }}/gitleaks_${{ env.GITLEAKS_VERSION }}_linux_x64.tar.gz" | tar -xz -C /usr/local/bin gitleaks
+          gitleaks version
+
+      - name: Install OSV-Scanner
+        run: |
+          curl -fsSL "https://github.com/google/osv-scanner/releases/download/v${{ env.OSV_SCANNER_VERSION }}/osv-scanner_${{ env.OSV_SCANNER_VERSION }}_linux_amd64.tar.gz" | tar -xz -C /usr/local/bin osv-scanner
+          osv-scanner --version
+
+      - name: Install Trivy
+        run: |
+          curl -fsSL "https://github.com/aquasecurity/trivy/releases/download/v${{ env.TRIVY_VERSION }}/trivy_${{ env.TRIVY_VERSION }}_Linux-64bit.tar.gz" | tar -xz -C /usr/local/bin trivy
+          trivy --version
+
+      - name: Prepare reports directory
+        run: |
+          mkdir -p ${{ env.REPORTS_DIR }}
+
+      - name: === Syntax Validation ===
+        run: |
+          echo "=== Syntax Validation ==="
+          python -m py_compile scripts/*.py
+          echo "All Python files syntax OK"
+
+      - name: === SAST ===
+        run: |
+          echo "=== SAST ==="
+          python ${{ env.SCRIPTS_DIR }}/run_scanners.py \
+            --reports-dir ${{ env.REPORTS_DIR }} \
+            --scanners bandit semgrep
+
+      - name: === Dependency Scanning ===
+        run: |
+          echo "=== Dependency Scanning ==="
+          # Install dependencies for SCA scanners
+          pip install --no-cache-dir pip-audit==${{ env.PIP_AUDIT_VERSION }} osv-scanner==${{ env.OSV_SCANNER_VERSION }}
+          
+          echo "=== pip-audit ==="
+          python ${{ env.SCRIPTS_DIR }}/run_scanners.py \
+            --reports-dir ${{ env.REPORTS_DIR }} \
+            --scanners pip-audit
+
+          echo "=== OSV-Scanner ==="
+          python ${{ env.SCRIPTS_DIR }}/run_scanners.py \
+            --reports-dir ${{ env.REPORTS_DIR }} \
+            --scanners osv-scanner
+
+      - name: === Secret Scanning ===
+        run: |
+          echo "=== Secret Scanning ==="
+          python ${{ env.SCRIPTS_DIR }}/run_scanners.py \
+            --reports-dir ${{ env.REPORTS_DIR }} \
+            --scanners gitleaks
+
+      - name: === IaC / Config Scanning ===
+        run: |
+          echo "=== IaC / Config Scanning ==="
+          python ${{ env.SCRIPTS_DIR }}/run_scanners.py \
+            --reports-dir ${{ env.REPORTS_DIR }} \
+            --scanners trivy
+
+      - name: === Docker Image Build ===
+        run: |
+          echo "=== Docker Image Build ==="
+          echo "Building Docker image: ${{ env.IMAGE_NAME }}"
+          docker build -t ${{ env.IMAGE_NAME }} -f ${{ env.APP_DIR }}/Dockerfile ${{ env.APP_DIR }}
+          echo "Image built successfully"
+
+      - name: === Container Scanning ===
+        run: |
+          echo "=== Container Scanning ==="
+          python ${{ env.SCRIPTS_DIR }}/run_scanners.py \
+            --reports-dir ${{ env.REPORTS_DIR }} \
+            --scanners trivy-image
+
+      - name: === DAST ===
+        run: |
+          echo "=== DAST (ZAP) ==="
+          python ${{ env.SCRIPTS_DIR }}/run_zap_scan.py \
+            --reports-dir ${{ env.REPORTS_DIR }} \
+            --app-host 0.0.0.0 \
+            --app-port 5000 \
+            --app-path ${{ env.APP_DIR }}/app.py \
+            --zap-timeout 600 \
+            --zap-rules-dir .zap \
+            --report-name zap-report.json
+
+      - name: === Normalization ===
+        run: |
+          echo "=== Normalization ==="
+          python ${{ env.SCRIPTS_DIR }}/normalize_reports.py \
+            --reports-dir ${{ env.REPORTS_DIR }} \
+            --output ${{ env.REPORTS_DIR }}/normalized-findings.json \
+            --rules-tsv .zap/rules.tsv
+
+      - name: === Security Gate ===
+        run: |
+          echo "=== Security Gate ==="
+          python ${{ env.SCRIPTS_DIR }}/security_gate.py \
+            --input ${{ env.REPORTS_DIR }}/normalized-findings.json \
+            --output ${{ env.REPORTS_DIR }}/security-gate-result.json \
+            --policy config/security-policy.yml \
+            --fail-on-missing
+
+      - name: === Report Generation ===
+        run: |
+          echo "=== Report Generation ==="
+          python ${{ env.SCRIPTS_DIR }}/generate_report.py \
+            --gate-result ${{ env.REPORTS_DIR }}/security-gate-result.json \
+            --normalized ${{ env.REPORTS_DIR }}/normalized-findings.json \
+            --output-dir ${{ env.REPORTS_DIR }} \
+            --run-id ${{ github.run_id }} \
+            --commit-sha ${{ github.sha }} \
+            --branch ${{ github.ref_name }}
+
+      - name: Upload security reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: ${{ env.REPORTS_DIR }}/
+          retention-days: 30
+
+      - name: Check gate result
+        if: always()
+        run: |
+          if [ -f "${{ env.REPORTS_DIR }}/security-gate-result.json" ]; then
+            PASSED=$(jq -r '.passed' ${{ env.REPORTS_DIR }}/security-gate-result.json)
+            if [ "$PASSED" = "false" ]; then
+              echo "::error::Security gate FAILED - policy violations detected"
+              exit 1
+            else
+              echo "::notice::Security gate PASSED"
+            fi
+          else
+            echo "::error::Security gate result not found"
+            exit 1
+          fi

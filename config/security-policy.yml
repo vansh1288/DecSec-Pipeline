@@ -1,0 +1,65 @@
+# DevSecOps Pipeline - Security Policy Configuration
+# This file defines how security findings are evaluated by the security gate.
+# Supports two modes: strict (production) and educational (baseline demonstration).
+
+mode: strict  # Options: strict, educational
+
+# Severity-level policy actions
+# FAIL: Gate fails, pipeline stops
+# WARN: Warning logged, gate passes
+# INFO: Informational only, gate passes
+severity:
+  critical: FAIL
+  high: FAIL
+  medium: WARN
+  low: INFO
+  informational: INFO
+  unknown: FAIL
+
+# Scanner failure handling
+# FAIL: Treat scanner execution failures as gate failures
+# WARN: Log warning but don't fail gate
+# INFO: Log info only
+scanner_failures: FAIL
+
+# Missing report handling
+# FAIL: Treat missing required reports as gate failures
+# WARN: Log warning but don't fail gate
+missing_reports: FAIL
+
+# List of required scanners (reports that must be present)
+required_scanners:
+  - gitleaks
+  - semgrep
+  - bandit
+  - osv-scanner
+  - pip-audit
+  - trivy
+  - zap
+
+# Suppression configuration
+suppressions:
+  enabled: true
+  # Require justification for each suppression
+  require_justification: true
+  # Require expiry date for suppressions (ISO 8601 format)
+  require_expiry: true
+  # Maximum suppression duration in days (0 = no limit)
+  max_duration_days: 90
+
+# Per-scanner overrides (optional)
+# Allows different policies for specific scanners
+scanner_overrides: {}
+  # Example:
+  # gitleaks:
+  #   severity:
+  #     high: WARN
+
+# Custom rule exceptions (optional)
+# Allows specific rule IDs to have different actions
+rule_exceptions: {}
+  # Example:
+  # "bandit:B101":
+  #   action: INFO
+  #   justification: "Assert statements are acceptable in test code"
+  #   expires: "2025-12-31"

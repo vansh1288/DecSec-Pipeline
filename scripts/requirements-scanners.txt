@@ -1,0 +1,12 @@
+# DevSecOps Pipeline - Python-based Scanner Dependencies
+# These are installed via pip in the CI environment
+
+# SAST Scanners
+bandit==1.7.10
+semgrep==1.113.0
+
+# Dependency Scanners
+pip-audit==2.8.0
+
+# Note: Gitleaks, OSV-Scanner, and Trivy are installed as binaries
+# Note: OWASP ZAP runs via Docker

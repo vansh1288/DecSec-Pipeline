@@ -1,0 +1,74 @@
+[
+ {
+  "RuleID": "generic-secret",
+  "Description": "Generic secret pattern",
+  "StartLine": 30,
+  "EndLine": 30,
+  "StartColumn": 8,
+  "EndColumn": 31,
+  "Match": "PASSWORD = \"password123\"",
+  "Secret": "PASSWORD = \"password123\"",
+  "File": "app/app.py",
+  "SymlinkFile": "",
+  "Commit": "dc1514a28671c0dea7e4ced0e0e6cdd2da074233",
+  "Link": "https://github.com/vansh1288/DecSec-Pipeline/blob/dc1514a28671c0dea7e4ced0e0e6cdd2da074233/app/app.py#L30",
+  "Entropy": 4.2516294,
+  "Author": "vansh1288",
+  "Email": "rajpootvansh78@gmail.com",
+  "Date": "2026-09-30T17:20:37Z",
+  "Message": "first commit",
+  "Tags": [
+   "secret",
+   "password"
+  ],
+  "Fingerprint": "dc1514a28671c0dea7e4ced0e0e6cdd2da074233:app/app.py:generic-secret:30"
+ },
+ {
+  "RuleID": "generic-secret",
+  "Description": "Generic secret pattern",
+  "StartLine": 51,
+  "EndLine": 51,
+  "StartColumn": 24,
+  "EndColumn": 47,
+  "Match": "PASSWORD = \"password123\"",
+  "Secret": "PASSWORD = \"password123\"",
+  "File": "app/tests/test_security.py",
+  "SymlinkFile": "",
+  "Commit": "dc1514a28671c0dea7e4ced0e0e6cdd2da074233",
+  "Link": "https://github.com/vansh1288/DecSec-Pipeline/blob/dc1514a28671c0dea7e4ced0e0e6cdd2da074233/app/tests/test_security.py#L51",
+  "Entropy": 4.2516294,
+  "Author": "vansh1288",
+  "Email": "rajpootvansh78@gmail.com",
+  "Date": "2026-09-30T17:20:37Z",
+  "Message": "first commit",
+  "Tags": [
+   "secret",
+   "password"
+  ],
+  "Fingerprint": "dc1514a28671c0dea7e4ced0e0e6cdd2da074233:app/tests/test_security.py:generic-secret:51"
+ },
+ {
+  "RuleID": "generic-secret",
+  "Description": "Generic secret pattern",
+  "StartLine": 126,
+  "EndLine": 126,
+  "StartColumn": 24,
+  "EndColumn": 47,
+  "Match": "PASSWORD = \"password123\"",
+  "Secret": "PASSWORD = \"password123\"",
+  "File": "app/tests/test_security.py",
+  "SymlinkFile": "",
+  "Commit": "dc1514a28671c0dea7e4ced0e0e6cdd2da074233",
+  "Link": "https://github.com/vansh1288/DecSec-Pipeline/blob/dc1514a28671c0dea7e4ced0e0e6cdd2da074233/app/tests/test_security.py#L126",
+  "Entropy": 4.2516294,
+  "Author": "vansh1288",
+  "Email": "rajpootvansh78@gmail.com",
+  "Date": "2026-09-30T17:20:37Z",
+  "Message": "first commit",
+  "Tags": [
+   "secret",
+   "password"
+  ],
+  "Fingerprint": "dc1514a28671c0dea7e4ced0e0e6cdd2da074233:app/tests/test_security.py:generic-secret:126"
+ }
+]

@@ -30,6 +30,33 @@ def load_normalized_findings(findings_path: str) -> Dict[str, Any]:
         return json.load(f)
 
 
+def normalize_cwe_ids(cwe_ids: List[Any]) -> List[str]:
+    """Normalize CWE IDs to strings, handling various formats.
+    
+    Handles:
+    - Integers: 79
+    - Strings: "79", "CWE-79", "CWE79"
+    - None/empty: returns empty list
+    """
+    if not cwe_ids:
+        return []
+    normalized = []
+    for cwe in cwe_ids:
+        if cwe is None:
+            continue
+        cwe_str = str(cwe).strip()
+        # Normalize format: ensure "CWE-" prefix
+        if cwe_str.isdigit():
+            cwe_str = f"CWE-{cwe_str}"
+        elif cwe_str.upper().startswith("CWE") and not cwe_str.upper().startswith("CWE-"):
+            # Handle "CWE79" -> "CWE-79"
+            num_part = cwe_str[3:]
+            if num_part.isdigit():
+                cwe_str = f"CWE-{num_part}"
+        normalized.append(cwe_str)
+    return normalized
+
+
 def generate_markdown_report(gate_result: Dict, normalized_data: Dict, metadata: Dict) -> str:
     """Generate Markdown security report."""
     lines = []
@@ -45,8 +72,8 @@ def generate_markdown_report(gate_result: Dict, normalized_data: Dict, metadata:
     
     # Overall Result
     passed = gate_result.get("passed", False)
-    status_emoji = "✅" if passed else "❌"
-    lines.append(f"## Overall Security Gate: {status_emoji} {'PASSED' if passed else 'FAILED'}")
+    status_text = "PASSED" if passed else "FAILED"
+    lines.append(f"## Overall Security Gate: {status_text}")
     lines.append("")
     
     # Summary
@@ -128,7 +155,7 @@ def generate_markdown_report(gate_result: Dict, normalized_data: Dict, metadata:
                 file_path = f.get("file_path", "N/A")
                 line = f.get("line_number", "")
                 cve_ids = f.get("cve_ids", [])
-                cwe_ids = f.get("cwe_ids", [])
+                cwe_ids = normalize_cwe_ids(f.get("cwe_ids", []))
                 fix_versions = f.get("fix_versions", [])
                 references = f.get("references", [])
                 

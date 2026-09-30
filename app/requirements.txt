@@ -35,6 +35,12 @@ itsdangerous==2.0.1
 # markupsafe 2.0.1 - No direct CVE but outdated
 markupsafe==2.0.1
 
+# Secure dependencies for production/secure mode
+bcrypt==4.0.1
+flask-limiter==3.5.0
+flask-wtf==1.1.1
+gunicorn==21.2.0
+
 # Testing dependencies
 pytest==7.1.2
 pytest-cov==3.0.0
